@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://chbjlacx5kpao"]
+
+[ext_resource type="Script" path="res://scripts/Mob.cs" id="1_cpk0t"]
+[ext_resource type="Texture2D" uid="uid://dec62iem7ntiy" path="res://art/enemyFlyingAlt_1.png" id="1_nkepw"]
+[ext_resource type="Texture2D" uid="uid://bf32yr2ebn44u" path="res://art/enemyFlyingAlt_2.png" id="2_3b6k3"]
+[ext_resource type="Texture2D" uid="uid://bhnbkywpx8nc3" path="res://art/enemySwimming_1.png" id="3_lw284"]
+[ext_resource type="Texture2D" uid="uid://clx1g5xi12hi0" path="res://art/enemySwimming_2.png" id="4_vxnbo"]
+[ext_resource type="Texture2D" uid="uid://cscg6aygvp182" path="res://art/enemyWalking_1.png" id="5_3c8sm"]
+[ext_resource type="Texture2D" uid="uid://c50nikj2yndyp" path="res://art/enemyWalking_2.png" id="6_rbgo0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_euvub"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_nkepw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_3b6k3")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_lw284")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vxnbo")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_3c8sm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_rbgo0")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g5ptt"]
+radius = 23.0
+height = 64.0
+
+[node name="Mob" type="RigidBody2D"]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_cpk0t")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_euvub")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_g5ptt")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
