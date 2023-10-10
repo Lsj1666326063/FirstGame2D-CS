@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://clbg7l0ud8s"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_7hnku"]
-[ext_resource type="PackedScene" uid="uid://3wwovb35qrj5" path="res://player/player.tscn" id="2_i1wc7"]
-[ext_resource type="PackedScene" uid="uid://chbjlacx5kpao" path="res://mob/mob.tscn" id="3_2878h"]
+[ext_resource type="PackedScene" uid="uid://3wwovb35qrj5" path="res://prefabs/player.tscn" id="2_8at7y"]
+[ext_resource type="PackedScene" uid="uid://chbjlacx5kpao" path="res://prefabs/mob.tscn" id="3_0l650"]
 
 [sub_resource type="Curve2D" id="Curve2D_vxh3d"]
 _data = {
@@ -12,8 +12,8 @@ point_count = 5
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7hnku")
-PlayerPrefab = ExtResource("2_i1wc7")
-MobPrefab = ExtResource("3_2878h")
+PlayerPrefab = ExtResource("2_8at7y")
+MobPrefab = ExtResource("3_0l650")
 
 [node name="StartTimer" type="Timer" parent="."]
 wait_time = 2.0
