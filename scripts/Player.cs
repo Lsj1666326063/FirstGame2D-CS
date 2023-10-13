@@ -4,7 +4,10 @@ using System;
 public partial class Player : Area2D
 {
 	[Signal]
-	public delegate void HitEventHandler();
+	public delegate void HitEventHandler(int hp);
+	
+	[Signal]
+	public delegate void DieEventHandler();
 	
 	[Export]
 	public float Speed { get; set; } = 400;
@@ -12,6 +15,7 @@ public partial class Player : Area2D
 	private Vector2 _screenSize;
 	private AnimatedSprite2D _animatedSprite2D;
 	private CollisionShape2D _collisionShape2D;
+	private int _hp;
     
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -21,6 +25,7 @@ public partial class Player : Area2D
 		_screenSize = GetViewportRect().Size;
 		BodyEntered += OnBodyEntered;
 		Hide();
+		SetProcess(false);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -49,17 +54,9 @@ public partial class Player : Area2D
 		}
 	}
 
-	private void OnBodyEntered(Node2D body)
+	public void Start(Vector2 position, int hp)
 	{
-		Hide();
-		_collisionShape2D.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-		SetProcess(false);
-		EmitSignal(SignalName.Hit);
-	}
-	
-
-	public void Start(Vector2 position)
-	{
+		_hp = hp;
 		SetPosition(position);
 		Show();
 		_collisionShape2D.Disabled = false;
@@ -110,5 +107,31 @@ public partial class Player : Area2D
 			_animatedSprite2D.Animation = "up";
 			_animatedSprite2D.FlipV = dir.Y > 0;
 		}
+	}
+
+	private void OnBodyEntered(Node2D body)
+	{
+		_hp--;
+		if (_hp <= 0)
+		{
+			PlayerDie();
+		}
+		else
+		{
+			PlayerHit();
+		}
+	}
+
+	private void PlayerDie()
+	{
+		Hide();
+		_collisionShape2D.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+		SetProcess(false);
+		EmitSignal(SignalName.Die);
+	}
+
+	private void PlayerHit()
+	{
+		EmitSignal(SignalName.Hit, _hp);
 	}
 }

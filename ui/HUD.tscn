@@ -1,31 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://jtp7wij1wf8d"]
+[gd_scene load_steps=5 format=3 uid="uid://jtp7wij1wf8d"]
 
 [ext_resource type="FontFile" uid="uid://cgbu17yiewwe8" path="res://fonts/Xolonium-Regular.ttf" id="1_3536w"]
+[ext_resource type="Script" path="res://scripts/HUD.cs" id="1_ixxkt"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_vtt3x"]
+action = &"game_start"
+
+[sub_resource type="Shortcut" id="Shortcut_830uk"]
+events = [SubResource("InputEventAction_vtt3x")]
 
 [node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_ixxkt")
 
-[node name="ScoreLabel" type="Label" parent="."]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 1.0
-offset_right = -10.0
-offset_bottom = 81.0
-grow_horizontal = 0
-theme_override_fonts/font = ExtResource("1_3536w")
-theme_override_font_sizes/font_size = 64
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="HpLabel" type="Label" parent="."]
-anchors_preset = -1
-anchor_right = 0.5
-offset_left = 10.0
-offset_bottom = 81.0
-theme_override_fonts/font = ExtResource("1_3536w")
-theme_override_font_sizes/font_size = 64
-text = "0"
-vertical_alignment = 1
+[node name="MsgTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="MsgLabel" type="Label" parent="."]
 anchors_preset = 14
@@ -43,8 +31,31 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="StartButton" type="Button" parent="."]
+[node name="HpLabel" type="Label" parent="."]
 anchors_preset = -1
+anchor_right = 0.5
+offset_left = 10.0
+offset_bottom = 81.0
+theme_override_fonts/font = ExtResource("1_3536w")
+theme_override_font_sizes/font_size = 64
+text = "0"
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+offset_right = -10.0
+offset_bottom = 81.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("1_3536w")
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="StartButton" type="Button" parent="."]
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -57,4 +68,5 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_3536w")
 theme_override_font_sizes/font_size = 64
+shortcut = SubResource("Shortcut_830uk")
 text = "Start"

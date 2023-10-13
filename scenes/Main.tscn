@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://clbg7l0ud8s"]
+[gd_scene load_steps=8 format=3 uid="uid://clbg7l0ud8s"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_7hnku"]
 [ext_resource type="PackedScene" uid="uid://3wwovb35qrj5" path="res://prefabs/player.tscn" id="2_8at7y"]
 [ext_resource type="PackedScene" uid="uid://chbjlacx5kpao" path="res://prefabs/mob.tscn" id="3_0l650"]
+[ext_resource type="AudioStream" uid="uid://c3praee16bwjl" path="res://art/House In a Forest Loop.ogg" id="4_g6hc5"]
+[ext_resource type="AudioStream" uid="uid://cua6cv4mercfe" path="res://art/gameover.wav" id="5_8rhs5"]
+[ext_resource type="PackedScene" uid="uid://jtp7wij1wf8d" path="res://ui/HUD.tscn" id="6_q7qce"]
 
 [sub_resource type="Curve2D" id="Curve2D_vxh3d"]
 _data = {
@@ -14,6 +17,20 @@ point_count = 5
 script = ExtResource("1_7hnku")
 PlayerPrefab = ExtResource("2_8at7y")
 MobPrefab = ExtResource("3_0l650")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_g6hc5")
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_8rhs5")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.141176, 0.129412, 0.129412, 1)
 
 [node name="StartTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -31,3 +48,5 @@ position = Vector2(240, 450)
 curve = SubResource("Curve2D_vxh3d")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+
+[node name="HUD" parent="." instance=ExtResource("6_q7qce")]

@@ -14,6 +14,9 @@ public partial class Main : Node
 	private Timer _scoreTimer;
 	private Vector2 _playerStartPos;
 	private PathFollow2D _mobSpawnLocation;
+	private HUD _hud;
+	private AudioStreamPlayer _music;
+	private AudioStreamPlayer _deathSound;
 	
 	private int _score;
 
@@ -30,11 +33,15 @@ public partial class Main : Node
 		_scoreTimer.Timeout += OnScoreTimerTimeout;
 		_playerStartPos = GetNode<Marker2D>("PlayerStartPosition").Position;
 		_mobSpawnLocation = GetNode<PathFollow2D>("MobPath/MobSpawnLocation");
+		_hud = GetNode<HUD>("HUD");
+		_hud.StartGame += NewGame;
+		_music = GetNode<AudioStreamPlayer>("Music");
+		_deathSound = GetNode<AudioStreamPlayer>("DeathSound");
 
 		_player = PlayerPrefab.Instantiate<Player>();
+		_player.Hit += _hud.UpdateHp;
+		_player.Die += GameOver;
 		AddChild(_player);
-		
-		NewGame();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -44,16 +51,30 @@ public partial class Main : Node
 
 	public void NewGame()
 	{
+		GetTree().CallGroup("mobs", Node.MethodName.QueueFree);
+		
 		_score = 0;
-		_player.Start(_playerStartPos);
+		_player.Start(_playerStartPos, 10);
 		
 		_startTimer.Start();
+		
+		_hud.UpdateHp(10);
+		_hud.UpdateScore(_score);
+		_hud.ShowMsg("Get Ready!");
+		
+		_music.Play();
 	}
 
 	private void GameOver()
 	{
 		_mobTimer.Stop();
 		_scoreTimer.Stop();
+		
+		_hud.UpdateHp(0);
+		_hud.ShowGameOver();
+		
+		_music.Stop();
+		_deathSound.Play();
 	}
 
 	private void OnStartTimerTimeout()
@@ -83,6 +104,7 @@ public partial class Main : Node
 	private void OnScoreTimerTimeout()
 	{
 		_score++;
+		_hud.UpdateScore(_score);
 	}
 
 	private (Vector2, float) RandomMobPosAndDir()
